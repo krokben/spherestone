@@ -263,147 +263,168 @@ export default class spherestone extends Component {
           title: 'Black Bear',
           img: blackbear,
           hp: 3,
-          atk: 2
+          atk: 2,
+          cost: 1
         },
         {
           id: 1,
           title: 'Black Horse',
           img: blackhorse,
           hp: 5,
-          atk: 3
+          atk: 3,
+          cost: 9
         },
         {
           id: 2,
           title: 'Black Wolf',
           img: blackwolf,
           hp: 1,
-          atk: 4
+          atk: 4,
+          cost: 1
         },
         {
           id: 3,
           title: 'Brown Bear',
           img: brownbear,
           hp: 10,
-          atk: 4
+          atk: 4,
+          cost: 1
         },
         {
           id: 4,
           title: 'Bull',
           img: bull,
           hp: 2,
-          atk: 1
+          atk: 1,
+          cost: 2
         },
         {
           id: 5,
           title: 'Elephant',
           img: elephant,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 2
         },
         {
           id: 6,
           title: 'Fish Skull',
           img: fishskull,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 2
         },
         {
           id: 7,
           title: 'Flower Girl',
           img: flowergirl,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 3
         },
         {
           id: 8,
           title: 'Fox',
           img: fox,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 3
         },
         {
           id: 9,
           title: 'Gorilla',
           img: gorilla,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 3
         },
         {
           id: 10,
           title: 'Leopard',
           img: leopard,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 4
         },
         {
           id: 11,
           title: 'Orange Girl',
           img: orangegirl,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 4
         },
         {
           id: 12,
           title: 'Owl',
           img: owl,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 4
         },
         {
           id: 13,
           title: 'Polar Bear',
           img: polarbear,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 5
         },
         {
           id: 14,
           title: 'Puma',
           img: puma,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 5
         },
         {
           id: 15,
           title: 'Purple Snake',
           img: purplesnake,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 6
         },
         {
           id: 16,
           title: 'Ram',
           img: ram,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 6
         },
         {
           id: 17,
           title: 'Reindeer',
           img: reindeer,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 7
         },
         {
           id: 18,
           title: 'White Horse',
           img: whitehorse,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 7
         },
         {
           id: 19,
           title: 'White Wolf',
           img: whitewolf,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 8
         },
         {
           id: 20,
           title: 'Wolf Girl',
           img: wolfgirl,
           hp: 4,
-          atk: 4
+          atk: 4,
+          cost: 8
         }
       ],
       deck: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
@@ -512,7 +533,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#9f5d25',
+    backgroundColor: '#34495e',
   },
   choiceLeft: {
     flexDirection: 'row',
