@@ -16,7 +16,7 @@ export default class Minion extends Component {
     return (
       <TouchableHighlight
         style={this.props.minion.style.highlight}
-        onPress={!this.props.minion.id ? () => this.props.chooseCard(this.props.minion.type, this.props.idx) : null}>
+        onPress={this.props.hero.playing && !this.props.minion.id ? () => this.props.chooseCard(this.props.minion.type, this.props.idx) : null}>
         <Image
           source={this.props.minion.id ? this.props.cards[this.props.minion.id].img : lion}
           style={[this.props.minion.style.img, this.props.minion.chosen && styles.chosen]} />

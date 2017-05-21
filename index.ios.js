@@ -47,7 +47,9 @@ export default class spherestone extends Component {
     this.state = {
       players: {
         hero: {
+          playing: true,
           chosen: false,
+          mana: 1,
           minions: [
             {
               type: 'hero',
@@ -152,7 +154,9 @@ export default class spherestone extends Component {
           ]
         },
         opponent: {
+          playing: false,
           chosen: false,
+          mana: 1,
           minions: [
             {
               type: 'opponent',
@@ -264,7 +268,8 @@ export default class spherestone extends Component {
           img: blackbear,
           hp: 3,
           atk: 2,
-          cost: 1
+          cost: 1,
+          played: false
         },
         {
           id: 1,
@@ -280,7 +285,8 @@ export default class spherestone extends Component {
           img: blackwolf,
           hp: 1,
           atk: 4,
-          cost: 1
+          cost: 1,
+          played: false
         },
         {
           id: 3,
@@ -288,7 +294,8 @@ export default class spherestone extends Component {
           img: brownbear,
           hp: 10,
           atk: 4,
-          cost: 1
+          cost: 1,
+          played: false
         },
         {
           id: 4,
@@ -296,7 +303,8 @@ export default class spherestone extends Component {
           img: bull,
           hp: 2,
           atk: 1,
-          cost: 2
+          cost: 2,
+          played: false
         },
         {
           id: 5,
@@ -304,7 +312,8 @@ export default class spherestone extends Component {
           img: elephant,
           hp: 4,
           atk: 4,
-          cost: 2
+          cost: 2,
+          played: false
         },
         {
           id: 6,
@@ -312,7 +321,8 @@ export default class spherestone extends Component {
           img: fishskull,
           hp: 4,
           atk: 4,
-          cost: 2
+          cost: 2,
+          played: false
         },
         {
           id: 7,
@@ -320,7 +330,8 @@ export default class spherestone extends Component {
           img: flowergirl,
           hp: 4,
           atk: 4,
-          cost: 3
+          cost: 3,
+          played: false
         },
         {
           id: 8,
@@ -328,7 +339,8 @@ export default class spherestone extends Component {
           img: fox,
           hp: 4,
           atk: 4,
-          cost: 3
+          cost: 3,
+          played: false
         },
         {
           id: 9,
@@ -336,7 +348,8 @@ export default class spherestone extends Component {
           img: gorilla,
           hp: 4,
           atk: 4,
-          cost: 3
+          cost: 3,
+          played: false
         },
         {
           id: 10,
@@ -344,7 +357,8 @@ export default class spherestone extends Component {
           img: leopard,
           hp: 4,
           atk: 4,
-          cost: 4
+          cost: 4,
+          played: false
         },
         {
           id: 11,
@@ -352,7 +366,8 @@ export default class spherestone extends Component {
           img: orangegirl,
           hp: 4,
           atk: 4,
-          cost: 4
+          cost: 4,
+          played: false
         },
         {
           id: 12,
@@ -360,7 +375,8 @@ export default class spherestone extends Component {
           img: owl,
           hp: 4,
           atk: 4,
-          cost: 4
+          cost: 4,
+          played: false
         },
         {
           id: 13,
@@ -368,7 +384,8 @@ export default class spherestone extends Component {
           img: polarbear,
           hp: 4,
           atk: 4,
-          cost: 5
+          cost: 5,
+          played: false
         },
         {
           id: 14,
@@ -376,7 +393,8 @@ export default class spherestone extends Component {
           img: puma,
           hp: 4,
           atk: 4,
-          cost: 5
+          cost: 5,
+          played: false
         },
         {
           id: 15,
@@ -384,7 +402,8 @@ export default class spherestone extends Component {
           img: purplesnake,
           hp: 4,
           atk: 4,
-          cost: 6
+          cost: 6,
+          played: false
         },
         {
           id: 16,
@@ -392,7 +411,8 @@ export default class spherestone extends Component {
           img: ram,
           hp: 4,
           atk: 4,
-          cost: 6
+          cost: 6,
+          played: false
         },
         {
           id: 17,
@@ -400,7 +420,8 @@ export default class spherestone extends Component {
           img: reindeer,
           hp: 4,
           atk: 4,
-          cost: 7
+          cost: 7,
+          played: false
         },
         {
           id: 18,
@@ -408,7 +429,8 @@ export default class spherestone extends Component {
           img: whitehorse,
           hp: 4,
           atk: 4,
-          cost: 7
+          cost: 7,
+          played: false
         },
         {
           id: 19,
@@ -416,7 +438,8 @@ export default class spherestone extends Component {
           img: whitewolf,
           hp: 4,
           atk: 4,
-          cost: 8
+          cost: 8,
+          played: false
         },
         {
           id: 20,
@@ -424,7 +447,8 @@ export default class spherestone extends Component {
           img: wolfgirl,
           hp: 4,
           atk: 4,
-          cost: 8
+          cost: 8,
+          played: false
         }
       ],
       deck: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
@@ -455,6 +479,12 @@ export default class spherestone extends Component {
     };
   }
 
+  componentDidMount() {
+    setInterval(() => {
+      this.endTurn();
+    }, 10000);
+  }
+
   chooseCard = (player, minion) => {
     const players = this.state.players;
     let cardBrowser = this.state.cardBrowser;
@@ -482,33 +512,56 @@ export default class spherestone extends Component {
 
   putCardOnBoard = (id) => {
     const minions = this.state.players.hero.minions;
+    const cards = this.state.cards;
     const chosenMinion = minions.find(x => x.chosen);
     let cardBrowser = this.state.cardBrowser;
 
-    if (chosenMinion !== undefined) {
-      chosenMinion.id = id;
+    if (chosenMinion !== undefined) { // See if a minion slot is chosen on the board
+      chosenMinion.id = id; // Put card in minion slot
+      cards[id].played = true; // Make card disabled in card browser
       this.setState({minions});
-      console.log(this.state.players.hero.minions);
+      this.setState({cards});
     }
 
     cardBrowser = false;
     this.setState({cardBrowser});
   };
 
+  endTurn = () => {
+    const hero = this.state.players.hero;
+    const opponent = this.state.players.opponent;
+
+    if (hero.playing) {
+      hero.playing = false;
+      opponent.playing = true;
+      opponent.mana += 1;
+    } else {
+      opponent.playing = false;
+      hero.playing = true;
+      hero.mana += 1;
+    }
+    this.setState({hero});
+    this.setState({opponent});
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <TouchableHighlight style={styles.opponent} onPress={() => this.chooseCard('opponent')}>
+        <TouchableHighlight style={[styles.opponent, this.state.players.opponent.playing ? styles.playing : null]} onPress={this.state.players.hero.playing ? () => this.chooseCard('opponent') : null}>
           <Image source={lion} style={[styles.opponentImg, this.state.players.opponent.chosen && styles.chosen]} />
         </TouchableHighlight>
         
-        {this.state.players.opponent.minions.map((x, i) => <Minion key={'minionOpponent-' + i} cards={this.state.cards} chooseCard={this.chooseCard} idx={i} minion={this.state.players.opponent.minions[i]} />)}
+        {this.state.players.opponent.playing && <View style={styles.playingOpponent}></View>}
 
-        <TouchableHighlight style={styles.hero} onPress={() => this.chooseCard('hero')}>
+        {this.state.players.opponent.minions.map((x, i) => <Minion key={'minionOpponent-' + i} cards={this.state.cards} chooseCard={this.chooseCard} idx={i} minion={this.state.players.opponent.minions[i]} hero={this.state.players.hero} />)}
+
+        <TouchableHighlight style={[styles.hero, this.state.players.hero.playing ? styles.playing : null]} onPress={this.state.players.hero.playing ? () => this.chooseCard('hero') : null} onLongPress={this.state.players.hero.playing ? this.endTurn : null}>
           <Image source={lion} style={[styles.opponentImg, this.state.players.hero.chosen && styles.chosen]} />
         </TouchableHighlight>
         
-        {this.state.players.hero.minions.map((x, i) => <Minion key={'minionHero-' + i} cards={this.state.cards} chooseCard={this.chooseCard} idx={i} minion={this.state.players.hero.minions[i]} />)}
+        {this.state.players.hero.playing && <View style={styles.playingHero}></View>}
+        
+        {this.state.players.hero.minions.map((x, i) => <Minion key={'minionHero-' + i} cards={this.state.cards} chooseCard={this.chooseCard} idx={i} minion={this.state.players.hero.minions[i]} hero={this.state.players.hero} />)}
 
         <View>
           <ListView
@@ -519,7 +572,10 @@ export default class spherestone extends Component {
           >
           </ListView>
         </View>
-        {this.state.cardBrowser && <CardBrowser cards={this.state.cards} deck={this.state.deck} putCardOnBoard={this.putCardOnBoard} />}
+        {this.state.cardBrowser && <CardBrowser cards={this.state.cards} deck={this.state.deck} putCardOnBoard={this.putCardOnBoard} hero={this.state.players.hero} />}
+        
+        <Text style={styles.manaOpponent}>{this.state.players.opponent.mana}</Text>
+        <Text style={styles.manaHero}>{this.state.players.hero.mana}</Text>
       </View>
     );
   }
@@ -572,6 +628,42 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     left: 110
+  },
+  manaHero: {
+    color: '#fff',
+    fontSize: 20,
+    position: 'absolute',
+    right: 10,
+    bottom: 10
+  },
+  manaOpponent: {
+    color: '#fff',
+    fontSize: 20,
+    position: 'absolute',
+    left: 10,
+    top: 10
+  },
+  playingHero: {
+    backgroundColor: '#BADA55',
+    borderWidth: 1,
+    borderColor: '#BADA55',
+    borderRadius: 20,
+    height: 40,
+    width: 40,
+    position: 'absolute',
+    bottom: 125,
+    left: Dimensions.get('window').width / 2 - 23
+  },
+  playingOpponent: {
+    backgroundColor: '#BADA55',
+    borderWidth: 1,
+    borderColor: '#BADA55',
+    borderRadius: 20,
+    height: 40,
+    width: 40,
+    position: 'absolute',
+    top: 5,
+    left: Dimensions.get('window').width / 2 - 23
   }
 });
 

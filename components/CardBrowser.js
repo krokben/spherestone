@@ -20,11 +20,11 @@ export default class spherestone extends Component {
             this.props.deck.map(x =>
             <View key={`deck-${x}`}>
               <TouchableHighlight
-                onPress={() => this.props.putCardOnBoard(x)}
+                onPress={!this.props.cards[x].played && this.props.cards[x].cost <= this.props.hero.mana ? () => this.props.putCardOnBoard(x): null}
               >
                 <Image
                   source={this.props.cards[x].img}
-                  style={styles.card}
+                  style={[styles.card, this.props.cards[x].played || this.props.cards[x].cost > this.props.hero.mana ? styles.disabled : null]}
                 />
               </TouchableHighlight>
               <View style={styles.cost}>
@@ -40,12 +40,20 @@ export default class spherestone extends Component {
             )
           }
         </View>
+        <Text>{this.props.hero.mana}</Text>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  manaHero: {
+    color: '#fff',
+    fontSize: 20,
+    position: 'absolute',
+    right: 10,
+    bottom: 10
+  },
   cardBrowser: {
     padding: 10,
     position: 'absolute',
@@ -65,6 +73,9 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width / 5,
     borderRadius: Dimensions.get('window').width / 10,
     marginBottom: 12
+  },
+  disabled: {
+    opacity: .6
   },
   text: {
     color: '#fff',
